@@ -5,7 +5,7 @@ import com.techtest.feature.tournament.domain.port.TournamentStorage
 
 class CreateTournamentUseCase(private val tournamentStorage: TournamentStorage) {
 
-    fun handle(tournament: Tournament) {
-        tournamentStorage.save(tournament);
+    fun handle(): Tournament {
+        return tournamentStorage.save(Tournament())
     }
 }

@@ -26,17 +26,21 @@ class GetPlayerInformationUseCaseTest {
         val tournament = Tournament()
 
         val playerOne = Player(Identity("PlayerOne"), Score())
-        playerOne.increaseScore(5)
+        playerOne.updateScore(4)
 
         val playerTwo = Player(Identity("PlayerTwo"), Score())
-        playerTwo.increaseScore(4)
+        playerTwo.updateScore(5)
 
         val bestialPlayer = Player(Identity("bestialPlayer"), Score())
-        bestialPlayer.increaseScore(666)
+        bestialPlayer.updateScore(666)
 
         tournament.addPlayer(playerOne)
         tournament.addPlayer(playerTwo)
         tournament.addPlayer(bestialPlayer)
+
+        storage.save(tournament)
+
+        tournament.updatePlayerScore(Identity("PlayerOne"), Score(5))
 
         storage.save(tournament)
 
@@ -51,11 +55,11 @@ class GetPlayerInformationUseCaseTest {
         assertEquals(1, winner.ranking)
 
         assertEquals("PlayerOne", middler.identity.alias)
-        assertEquals(5, middler.score.totalPoints)
+        assertEquals(9, middler.score.totalPoints)
         assertEquals(2, middler.ranking)
 
         assertEquals("PlayerTwo", loser.identity.alias)
-        assertEquals(4, loser.score.totalPoints)
+        assertEquals(5, loser.score.totalPoints)
         assertEquals(3, loser.ranking)
     }
 
@@ -66,13 +70,13 @@ class GetPlayerInformationUseCaseTest {
         val tournament = Tournament()
 
         val playerOne = Player(Identity("PlayerOne"), Score())
-        playerOne.increaseScore(5)
+        playerOne.updateScore(5)
 
         val playerTwo = Player(Identity("PlayerTwo"), Score())
-        playerTwo.increaseScore(4)
+        playerTwo.updateScore(4)
 
         val bestialPlayer = Player(Identity("bestialPlayer"), Score())
-        bestialPlayer.increaseScore(666)
+        bestialPlayer.updateScore(666)
 
         tournament.addPlayer(playerOne)
         tournament.addPlayer(playerTwo)

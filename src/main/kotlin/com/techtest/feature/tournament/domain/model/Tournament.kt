@@ -1,10 +1,10 @@
 package com.techtest.feature.tournament.domain.model
 
-import java.util.MissingResourceException
-import java.util.UUID
+import java.util.*
 
-class Tournament {
-    val tournamentId: UUID = UUID.randomUUID()
+class Tournament() {
+    var tournamentId: UUID = UUID.randomUUID()
+        private set
 
     var players: MutableSet<Player> = mutableSetOf()
         private set
@@ -12,16 +12,31 @@ class Tournament {
     var tournamentStatus = TournamentStatus.ONGOING
         private set
 
+    constructor(tournamentId: UUID, players: MutableSet<Player>, tournamentStatus: TournamentStatus) : this() {
+        this.tournamentId = tournamentId
+        this.players = players
+        this.tournamentStatus = tournamentStatus
+    }
+
     fun addPlayer(player: Player) {
         if (players.contains(player)) {
             throw IllegalArgumentException("Player ${player.identity.alias} is already in the tournament")
         } else {
             players.add(player)
+            updateRanking()
         }
     }
 
-    fun updatePlayerScore(player: Player) {
-        players.add(player)
+    fun updatePlayerScore(identity: Identity, score: Score): Player {
+        val playerToUpdate = players.find { it.identity.alias == identity.alias }
+
+        if (playerToUpdate == null) {
+            throw IllegalArgumentException("Player ${identity.alias} doesn't not belong to this tournament.")
+        } else {
+            playerToUpdate.updateScore(score.totalPoints)
+            updateRanking()
+            return playerToUpdate
+        }
     }
 
     fun finishTournament() {
@@ -29,21 +44,25 @@ class Tournament {
         tournamentStatus = TournamentStatus.FINISHED
     }
 
-    fun ranking(): ArrayList<Player> {
-        return ArrayList(players.sortedBy { it.score.totalPoints }.reversed())
-    }
-
     fun getPlayerInformation(playerName: String): Player {
-        val rankedPlayers = ranking()
-
-        val player = rankedPlayers.find { it.identity.alias == playerName }
-        val playerRanking = rankedPlayers.indexOf(player) + 1
+        val player = players.find { it.identity.alias == playerName }
 
         if (player == null) {
-            throw RuntimeException("Player $playerName doesn't not belong to this tournament.")
+            throw IllegalArgumentException("Player $playerName doesn't not belong to this tournament.")
         } else {
-            return Player(player.identity, player.score, playerRanking)
+            return player
         }
+    }
+
+    private fun updateRanking() {
+        players = players
+            .sortedBy { it.score.totalPoints }
+            .reversed()
+            .mapIndexed { index, player ->
+                player.updateRank(index + 1)
+                player
+            }
+            .toMutableSet()
     }
 
 }

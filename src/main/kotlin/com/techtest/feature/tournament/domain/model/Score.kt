@@ -1,10 +1,15 @@
 package com.techtest.feature.tournament.domain.model
 
-class Score {
+class Score() {
     var totalPoints: Int = 0
-        private set;
+        private set
 
-    fun increase(points: Int) {
+    constructor(totalPoints: Int) : this() {
+        this.totalPoints = totalPoints
+    }
+
+    fun update(points: Int) {
         totalPoints += points
     }
+
 }

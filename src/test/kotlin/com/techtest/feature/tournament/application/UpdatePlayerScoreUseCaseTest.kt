@@ -27,12 +27,12 @@ class UpdatePlayerScoreUseCaseTest {
         val tournament = Tournament()
         val playerOne = Player(Identity("PlayerOne"), Score())
 
+        tournament.addPlayer(playerOne)
+
         storage.save(tournament);
 
-        playerOne.increaseScore(5)
-
         // when
-        useCase.handle(tournament.tournamentId, playerOne)
+        useCase.handle(tournament.tournamentId, Identity("PlayerOne"), Score(5))
 
         // then
         assertEquals(5, tournament.players.find { it == playerOne }?.score?.totalPoints)

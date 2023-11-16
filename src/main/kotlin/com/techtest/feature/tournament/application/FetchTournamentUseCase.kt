@@ -6,7 +6,7 @@ import java.util.UUID
 
 class FetchTournamentUseCase(private val tournamentStorage: TournamentStorage) {
 
-    fun handle(tournamentId: UUID): Tournament? {
+    fun handle(tournamentId: UUID): Tournament {
         return tournamentStorage.find(tournamentId)
     }
 }

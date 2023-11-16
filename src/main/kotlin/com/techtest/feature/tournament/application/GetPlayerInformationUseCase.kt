@@ -6,7 +6,7 @@ import java.util.UUID
 
 class GetPlayerInformationUseCase(private val tournamentStorage: TournamentStorage) {
 
-    fun handle(tournamentId: UUID, playerName: String): Player {
-        return tournamentStorage.getPlayerInformation(tournamentId, playerName)
+    fun handle(tournamentId: UUID, playerAlias: String): Player {
+        return tournamentStorage.getPlayerInformation(tournamentId, playerAlias)
     }
 }

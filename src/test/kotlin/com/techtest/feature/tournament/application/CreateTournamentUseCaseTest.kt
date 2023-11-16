@@ -1,6 +1,5 @@
 package com.techtest.feature.tournament.application
 
-import com.techtest.feature.tournament.domain.model.Tournament
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -20,12 +19,11 @@ class CreateTournamentUseCaseTest {
     @Test
     fun handle_shouldSaveTournament() {
         // given
-        val tournament = Tournament()
 
         // when
-        useCase.handle(tournament)
+        useCase.handle()
 
         // then
-        assertTrue(storage.contains(tournament))
+        assertTrue(storage.size == 1)
     }
 }

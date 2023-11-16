@@ -46,11 +46,11 @@ class AddPlayerUseCaseTest {
 
         tournament.addPlayer(playerOne)
 
-        storage.save(tournament);
+        storage.save(tournament)
 
         // when
         val exception = assertThrows(IllegalArgumentException::class.java) {
-            useCase.handle(tournament.tournamentId, playerOne)
+            useCase.handle(tournament.tournamentId, Player(Identity("PlayerOne"), Score()))
         }
 
         // then

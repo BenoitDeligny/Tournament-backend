@@ -28,7 +28,7 @@ class FetchTournamentUseCaseTest {
         val expectedTournament = useCase.handle(tournament.tournamentId)
 
         // then
-        assertTrue(expectedTournament?.tournamentId == tournament.tournamentId)
+        assertTrue(expectedTournament.tournamentId == tournament.tournamentId)
     }
 
     @Test
