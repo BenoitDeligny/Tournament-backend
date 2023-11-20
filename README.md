@@ -1,6 +1,7 @@
 # Tournament-backend
+Create a docker-compose.yml in project root.
 
-Launch this docker compose and try the API
+Launch this docker compose by using ``` docker-compose up ``` in the terminal and try the API (by using a POST in ``` http://localhost:8080/tournament ``` for example)
 
 ```
 version: '3.9'
@@ -32,3 +33,4 @@ services:
 volumes:
   mongodb: {}
 ```
+If the 27017 port is already in use, don't hesitate to change the config in this file.
